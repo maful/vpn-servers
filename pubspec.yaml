@@ -30,12 +30,14 @@ dependencies:
   http: ^0.12.2
   json_annotation: ^3.1.1
   cached_network_image: ^2.4.1
+  auto_route: ^0.6.9
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   build_runner: ^1.10.7
   json_serializable: ^3.5.1
+  auto_route_generator: ^0.6.10
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
