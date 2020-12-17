@@ -25,24 +25,38 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
+      # Cache pubspec
       - uses: actions/cache@v2
         with:
           path: /opt/hostedtoolcache/flutter
           key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.lock') }}
 
+      # Setup java for build android
       - uses: actions/setup-java@v1
         with:
           java-version: '12.x'
 
+      # Setup flutter stable version
       - uses: subosito/flutter-action@v1
         with:
           channel: 'stable'
 
+      # Install dependencies
       - run: flutter pub get
+
+      # Format code
       - run: flutter format --set-exit-if-changed .
+
+      # Analyze code
       - run: flutter analyze .
+
+      # Run testing
       - run: flutter test
+
+      # Build apk on diferent abi
       - run: flutter build apk --split-per-abi
+
+      # Upload artifact
       - uses: actions/upload-artifact@v1
         with:
           name: apks
