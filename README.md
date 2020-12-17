@@ -1,5 +1,7 @@
 # vpn_countries
 
+![CI](https://github.com/maful/vpn-servers/workflows/CI/badge.svg?branch=main)
+
 A new Flutter project.
 
 ## Getting Started
