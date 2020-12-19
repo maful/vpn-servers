@@ -7,6 +7,7 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
 
 import '../screens/home_screen.dart';
 import '../screens/server_detail_screen.dart';
@@ -39,7 +40,10 @@ class RouterApp extends RouterBase {
     ServerDetailScreen: (data) {
       final args = data.getArgs<ServerDetailScreenArguments>(nullOk: false);
       return buildAdaptivePageRoute<dynamic>(
-        builder: (context) => ServerDetailScreen(code: args.code),
+        builder: (context) => ServerDetailScreen(
+          key: args.key,
+          code: args.code,
+        ),
         settings: data,
       );
     },
@@ -52,6 +56,7 @@ class RouterApp extends RouterBase {
 
 /// ServerDetailScreen arguments holder class
 class ServerDetailScreenArguments {
+  final Key key;
   final String code;
-  ServerDetailScreenArguments({@required this.code});
+  ServerDetailScreenArguments({this.key, @required this.code});
 }
