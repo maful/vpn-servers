@@ -3,42 +3,34 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:vpn_countries/repositories/faker/fake_server_repository.dart';
 import 'package:vpn_countries/repositories/server_repository.dart';
-import 'package:vpn_countries/screens/home_screen.dart';
+import 'package:vpn_countries/screens/server_detail_screen.dart';
 
-Widget createHomeScreen() => ProviderScope(
+Widget createServerDetailScreen(String code) => ProviderScope(
       overrides: [
         serverRepositoryProvider.overrideWithProvider(
           Provider<ServerRepository>((ref) => FakeServerRepository()),
         ),
       ],
       child: MaterialApp(
-        home: HomeScreen(),
+        home: ServerDetailScreen(code: code),
       ),
     );
 
 void main() {
-  group('Home Page Widget Tests', () {
+  group('Server Detail Page Widget Tests', () {
     testWidgets('Testing if Title is shows up', (WidgetTester tester) async {
-      await tester.pumpWidget(createHomeScreen());
-      expect(find.text('VPN Countries'), findsOneWidget);
+      await tester.pumpWidget(createServerDetailScreen('AR'));
+
+      expect(find.text('Argentina'), findsOneWidget);
     });
 
-    testWidgets('Testing if CircularProgressIndicator is shows up',
-        (WidgetTester tester) async {
-      await tester.pumpWidget(createHomeScreen());
+    testWidgets('Testing if Servers is shows up', (WidgetTester tester) async {
+      await tester.pumpWidget(createServerDetailScreen('AR'));
 
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
       await tester.pump();
       expect(find.byType(CircularProgressIndicator), findsNothing);
-    });
-
-    testWidgets('Testing if ListView is shows up', (WidgetTester tester) async {
-      await tester.pumpWidget(createHomeScreen());
-
-      expect(find.byType(ListView), findsNothing);
-      await tester.pump();
-      expect(find.byType(ListView), findsOneWidget);
-      expect(tester.widgetList(find.byType(ListTile)).length, 2);
+      expect(tester.widgetList(find.byType(ListTile)).length, equals(1));
     });
   });
 }

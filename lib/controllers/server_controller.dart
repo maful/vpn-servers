@@ -1,6 +1,5 @@
 import 'dart:collection';
 
-import 'package:flutter/foundation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:vpn_countries/models/logical_server.dart';
 import 'package:vpn_countries/repositories/server_repository.dart';
@@ -17,10 +16,7 @@ class ServerController extends StateNotifier<ServerControllerModel> {
     getServers();
   }
 
-  static final _initialState = ServerControllerModel(
-    {},
-    // {}, // empty object
-  );
+  static final _initialState = ServerControllerModel({});
 
   final ServerRepository _serverRepository;
 
@@ -29,8 +25,9 @@ class ServerController extends StateNotifier<ServerControllerModel> {
     final removeNullCity = servers.where((x) {
       return x.city != null;
     }).toList();
-    final groupByCountry = await compute(orderServers, removeNullCity);
-    // servers.where((x) => x.city != null).take(100).toList(),
+    // Currently, we can not test the compute function, will update once have the solution
+    // final groupByCountry = await compute(orderServers, removeNullCity);
+    final groupByCountry = orderServers(removeNullCity);
     state = ServerControllerModel(groupByCountry);
   }
 }
@@ -51,12 +48,10 @@ Map<String, List<LogicalServer>> orderServers(List<LogicalServer> servers) {
   return orderByCountry;
 }
 
-// TODO: Update all this things later on
 class ServerControllerModel {
   ServerControllerModel(
     this.servers,
   );
 
-  // final List<LogicalServer> servers;
   final Map<String, List<LogicalServer>> servers;
 }

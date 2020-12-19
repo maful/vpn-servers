@@ -3,26 +3,26 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:vpn_countries/controllers/server_controller.dart';
 import 'package:vpn_countries/utils/countries_code.dart';
 
-class ServerDetailScreen extends ConsumerWidget {
+class ServerDetailScreen extends StatelessWidget {
   final String code;
 
-  const ServerDetailScreen({@required this.code});
+  const ServerDetailScreen({Key key, @required this.code}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final serversState = watch(serversControllerProvider.state).servers;
-    final getServers = serversState[code];
-    print('ServerDetailScreen build');
-
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(CountriesCode.value(code)),
       ),
-      body: Builder(
-        builder: (context) {
-          if (getServers.isEmpty) {
+      body: Consumer(
+        builder: (context, watch, _) {
+          final serversState = watch(serversControllerProvider.state).servers;
+          final getServers = serversState[code];
+
+          if (getServers == null) {
             return Center(child: CircularProgressIndicator());
           }
+
           return ListView.separated(
             shrinkWrap: true,
             itemCount: getServers.length,
