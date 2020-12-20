@@ -54,7 +54,7 @@ jobs:
       - name: Build APK
         env:
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
-        run: flutter build apk --split-per-abi --dart-define=sentryDsn=$SENTRY_DSN
+        run: flutter build apk --debug --split-per-abi --dart-define=sentryDsn=$SENTRY_DSN
         if: github.ref == 'refs/heads/main'
 
       # Upload artifact
