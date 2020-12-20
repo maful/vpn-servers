@@ -62,4 +62,4 @@ jobs:
         if: github.ref == 'refs/heads/main'
         with:
           name: apks
-          path: build/app/outputs/apk/release/
+          path: build/app/outputs/apk/debug/
