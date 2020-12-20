@@ -13,8 +13,8 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  test:
-    name: Test and Analyze
+  build:
+    name: Test and Build
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -50,17 +50,13 @@ jobs:
       # Run testing
       - run: flutter test
 
-  build:
-    name: Build APK and Upload Artifact
-    needs: test
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    steps:
       # Build apk on diferent abi
       - run: flutter build apk --split-per-abi
+        if: github.ref == 'refs/heads/main'
 
       # Upload artifact
       - uses: actions/upload-artifact@v1
+        if: github.ref == 'refs/heads/main'
         with:
           name: apks
           path: build/app/outputs/apk/release/
